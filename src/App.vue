@@ -8,6 +8,20 @@
               <md-icon>menu</md-icon>
             </md-button>
           </div>
+
+          <!-- <div class="md-toolbar-section-end">
+            <md-menu>
+              <md-badge :md-content="memberCount">
+                <md-button class="md-icon-button" md-menu-trigger>
+                  <md-icon>account_circle</md-icon>
+                </md-button>
+              </md-badge>
+
+              <md-menu-content>
+                <md-menu-item v-for="item in members" :key="item">{{ item }}</md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </div>-->
         </div>
 
         <div class="md-toolbar-row md-toolbar-offset">
@@ -21,12 +35,12 @@
         </md-toolbar>
 
         <md-list>
-          <md-list-item to="/">
+          <md-list-item :to="{ name: `chatroom` }">
             <md-icon>chat</md-icon>
             <span class="md-list-item-text">채팅방</span>
           </md-list-item>
 
-          <md-list-item to="/profile">
+          <md-list-item :to="{ name: `profile` }">
             <md-icon>person</md-icon>
             <span class="md-list-item-text">대화명 변경</span>
           </md-list-item>
@@ -40,6 +54,44 @@
   </div>
 </template>
 
+<script>
+import $users from "@/api/users.js";
+
+export default {
+  name: "Chat",
+  data() {
+    return {
+      members: []
+    };
+  },
+  computed: {
+    menuVisible: {
+      get() {
+        return this.$store.state.menuVisible;
+      },
+      set(value) {
+        this.$store.commit("menuVisible", value);
+      }
+    },
+    memberCount() {
+      return this.members.length;
+    }
+  },
+  created() {
+    setInterval(() => {
+      this.updateMembers();
+    }, 10000);
+  },
+  methods: {
+    updateMembers() {
+      /* $users.getMembers().then(({ data }) => {
+        this.members = data;
+      }); */
+    }
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 .md-app {
   border: 1px solid rgba(#000, 0.12);
@@ -51,22 +103,3 @@
   max-width: calc(100vw - 125px);
 }
 </style>
-
-<script>
-export default {
-  name: "Chat",
-  data() {
-    return {};
-  },
-  computed: {
-    menuVisible: {
-      get() {
-        return this.$store.state.menuVisible;
-      },
-      set(value) {
-        this.$store.commit("menuVisible", value);
-      }
-    }
-  }
-};
-</script>

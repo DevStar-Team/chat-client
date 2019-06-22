@@ -4,9 +4,11 @@ import store from "./store";
 
 Vue.use(Router);
 
+const contextPath = process.env.VUE_APP_CONTEXT_PATH;
+
 const routes = [
   {
-    path: "/",
+    path: contextPath + "/",
     name: "chatroom",
     component: () => import("@/views/ChatRoom.vue"),
     meta: {
@@ -14,7 +16,7 @@ const routes = [
     }
   },
   {
-    path: "/profile",
+    path: contextPath + "/profile",
     name: "profile",
     component: () =>
       import("@/views/Profile.vue")

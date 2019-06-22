@@ -22,7 +22,6 @@ export default {
   methods: {
     submit() {
       this.$store.dispatch("signIn", this.talkerName);
-      this.$router.push("/");
     }
   }
 };

@@ -45,13 +45,19 @@ export default {
     this.sendMessage(this.message);
     setInterval(() => {
       this.getMessage();
-    }, 2000);
+    }, 5000);
   },
   mounted() {},
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.message.message = store.state.talkerName + "님이 입장하셨습니다.";
     });
+  },
+  beforeRouteLeave(to, from, next) {
+    this.message.message = this.message.talkerName + "님이 나가셨습니다.";
+    this.message.talkerName = null;
+    this.sendMessage();
+    next();
   },
   methods: {
     resetMessage() {
@@ -66,7 +72,6 @@ export default {
         this.messages.push(data);
         this.lastMessageId = data.id;
         this.resetMessage();
-        //this.getMessage();
       });
     },
     getMessage() {
@@ -75,7 +80,6 @@ export default {
           this.messages.push(value);
           this.lastMessageId = value.id;
         });
-        this.resetMessage();
       });
     }
   }
